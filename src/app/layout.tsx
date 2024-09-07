@@ -1,6 +1,8 @@
-import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Oxygen } from 'next/font/google';
+
+import { Header } from '@/components/layout/Header';
+import { cn } from '@/lib/utils';
 import './globals.css';
 
 const oxygem = Oxygen({ weight: ['300', '400', '700'], subsets: ['latin'] });
@@ -17,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={cn(oxygem.className, 'min-h-screen flex fle-col')}>
+      <body className={cn(oxygem.className, 'min-h-screen flex flex-col')}>
+        <Header />
         <main className='flex-grow'>{children}</main>
       </body>
     </html>
