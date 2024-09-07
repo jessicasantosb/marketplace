@@ -8,8 +8,8 @@ export function Header() {
       <div className='container mx-auto p-4 flex items-center justify-between'>
         <Logo />
         <div className='flex items-center justify-center space-x-4'>
-          <UserNav />
           <CartButton />
+          <UserNav />
         </div>
       </div>
     </header>

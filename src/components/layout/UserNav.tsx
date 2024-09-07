@@ -1,4 +1,3 @@
-import { Avatar } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +9,7 @@ import {
 
 export function UserNav() {
   return (
-    <section>
-      <Avatar />
-
+    <section className='bg-slate-300'>
       <DropdownMenu>
         <DropdownMenuTrigger>Menu</DropdownMenuTrigger>
         <DropdownMenuContent>
