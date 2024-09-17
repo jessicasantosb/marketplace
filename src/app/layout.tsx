@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Oxygen } from 'next/font/google';
 
 import { Header } from '@/components/layout/Header';
+import AppCartProvider from '@/components/shop/AppCartProvider';
 import { cn } from '@/lib/utils';
 import './globals.css';
 
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={cn(oxygem.className, 'min-h-screen flex flex-col')}>
-        <Header />
-        <main className='flex-grow'>{children}</main>
+        <AppCartProvider>
+          <Header />
+          <main className='flex-grow'>{children}</main>
+        </AppCartProvider>
       </body>
     </html>
   );
