@@ -1,7 +1,9 @@
-import Image from "next/image";
+import { ProductList } from '@/components/shop/ProductList';
 
 export default function Home() {
   return (
-   <>Home</>
+    <section>
+      <ProductList />
+    </section>
   );
 }
