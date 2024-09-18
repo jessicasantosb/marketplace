@@ -1,8 +1,9 @@
 'use client';
 
-import { Products } from '@/types';
 import Image from 'next/image';
-import { Button } from '../ui/button';
+import { formatCurrencyString, useShoppingCart } from 'use-shopping-cart';
+
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,16 +11,35 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../ui/card';
+} from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { Products } from '@/types';
 
 export function ProductCard({
+  id,
   name,
   description,
   price,
   currency,
   image,
 }: Products) {
-  const addToCart = async () => {};
+  const { addItem } = useShoppingCart();
+  const { toast } = useToast();
+
+  const formattedPrice = formatCurrencyString({
+    value: Number(price),
+    currency,
+    language: 'pt-BR',
+  });
+
+  const addToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    addItem({ id, name, description, currency, price: Number(price), image });
+    toast({
+      title: `${name} adicionado`,
+      description: 'Adicione mais por descontos.',
+    });
+  };
 
   return (
     <Card>
@@ -43,9 +63,7 @@ export function ProductCard({
       </CardContent>
 
       <CardFooter className='flex items-center justify-between'>
-        <p>
-          {price} <span>{currency}</span>
-        </p>
+        <p>{formattedPrice}</p>
         <Button size={'lg'} onClick={addToCart}>
           Comprar
         </Button>
