@@ -5,6 +5,7 @@ import { DummyProducts } from '@/types';
 const getProducts = async () => {
   const res = await fetch('https://dummyjson.com/products?limit=10');
   const data = await res.json();
+
   const products = data.products.map((product: DummyProducts) => {
     return {
       id: product.id,
@@ -25,9 +26,7 @@ const seedProducts = async () => {
   const products = await getProducts();
   await products.map(async (product: any) => {
     try {
-      const productCreated = await stripe.products.create(product);
-      console.log(productCreated.name);
-      
+      await stripe.products.create(product);
     } catch (error: any) {
       console.error('Stripe error: ', error);
     }
@@ -35,7 +34,7 @@ const seedProducts = async () => {
 };
 
 export default async function Seed() {
-  await seedProducts()
+  await seedProducts();
 
   return (
     <section className='container flex items-center justify-center'>

@@ -17,16 +17,31 @@ import { cn } from '@/lib/utils';
 
 export default function Cart() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const { cartCount, cartDetails, clearCart } = useShoppingCart();
+  const { cartCount, cartDetails, redirectToCheckout, clearCart } =
+    useShoppingCart();
 
-  const checkout = async () => {};
+  const checkout = async () => {
+    setIsCheckingOut(true);
+
+    const response = await fetch('api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cartDetails),
+    });
+
+    const { id } = await response.json();
+
+    await redirectToCheckout(id);
+
+    setIsCheckingOut(false);
+  };
 
   return (
-    <section className='flex flex-col items-center justify-center'>
+    <section className='m-4 flex flex-col items-center justify-center gap-2'>
       {cartDetails &&
         Object.keys(cartDetails).map((key) => {
           return (
-            <Card key={key}>
+            <Card key={key} className='w-full'>
               <CardHeader>
                 <CardTitle className='tracking-wider'>
                   {cartDetails[key].name} ({cartDetails[key].quantity})
@@ -63,7 +78,7 @@ export default function Cart() {
 
       <div
         className={cn(
-          'w-full [&>*]:m-4 flex items-center justify-between',
+          'w-full flex items-center justify-between',
           cartCount === undefined || cartCount <= 0 ? 'hidden' : ''
         )}
       >
@@ -79,7 +94,7 @@ export default function Cart() {
         </Button>
         <Button
           size={'lg'}
-          variant={'outline'}
+          variant={'ghost'}
           disabled={isCheckingOut}
           onClick={clearCart}
         >
